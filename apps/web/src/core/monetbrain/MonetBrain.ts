@@ -8,6 +8,8 @@ import { TimelineEngine } from "./engines/TimelineEngine";
 import { ScoreEngine } from "./engines/ScoreEngine";
 import { KnowledgeEngine } from "./engines/KnowledgeEngine";
 import { ReasoningEngine } from "./engines/ReasoningEngine";
+import { AdvisorEngine } from "./engines/AdvisorEngine";
+import { AudienceEngine } from "./engines/AudienceEngine";
 
 import type { AnalysisResult } from "./models/AnalysisResult";
 
@@ -23,6 +25,8 @@ export class MonetBrain {
   private timelineEngine: TimelineEngine;
   private scoreEngine: ScoreEngine;
   private reasoningEngine: ReasoningEngine;
+  private advisorEngine: AdvisorEngine;
+  private audienceEngine: AudienceEngine;
 
   constructor() {
 
@@ -36,49 +40,37 @@ export class MonetBrain {
     this.timelineEngine = new TimelineEngine();
     this.scoreEngine = new ScoreEngine();
     this.reasoningEngine = new ReasoningEngine();
+    this.advisorEngine = new AdvisorEngine();
+    this.audienceEngine = new AudienceEngine();
 
   }
 
   analyze(text: string): AnalysisResult {
 
-    // Detectar categoría
     const keywords = this.keywordEngine.analyze(text);
 
-    // Obtener conocimiento del sector
     this.knowledgeEngine.get(keywords.category);
 
-    // Analizar tendencia
-    const trend = this.trendEngine.analyze(
-      keywords.category
-    );
+    const audience = this.audienceEngine.analyze(
+  keywords.category
+);
 
-    // Analizar mercado
-    const market = this.marketEngine.analyze(
-      trend.score
-    );
+console.log("CATEGORY:", keywords.category);
 
-    // Analizar riesgo
-    const risk = this.riskEngine.analyze(
-      text,
-      keywords.category
-    );
+console.log("AUDIENCE:", audience);
 
-    // Estrategia
-    const strategy = this.strategyEngine.analyze(
-      keywords.category
-    );
+    const trend = this.trendEngine.analyze(keywords.category);
 
-    // Oportunidad
-    const opportunity = this.opportunityEngine.analyze(
-      trend.score
-    );
+    const market = this.marketEngine.analyze(trend.score);
 
-    // Hoja de ruta
-    const timeline = this.timelineEngine.analyze(
-      text
-    );
+    const risk = this.riskEngine.analyze(text, keywords.category);
 
-    // Puntaje final
+    const strategy = this.strategyEngine.analyze(keywords.category);
+
+    const opportunity = this.opportunityEngine.analyze(trend.score);
+
+    const timeline = this.timelineEngine.analyze(text);
+
     const finalScore = this.scoreEngine.calculate({
 
       trendScore: trend.score,
@@ -89,7 +81,6 @@ export class MonetBrain {
 
     });
 
-    // Resultado base
     const partialResult = {
 
       score: finalScore,
@@ -122,19 +113,29 @@ export class MonetBrain {
 
     };
 
-    // Razonamiento
     const reasoning = this.reasoningEngine.analyze(
       partialResult as AnalysisResult
     );
 
-    // Resultado final
-    return {
+    const advisor = this.advisorEngine.analyze({
 
       ...partialResult,
 
       reasoning
 
-    };
+    } as AnalysisResult);
+
+    return {
+
+  ...partialResult,
+
+  reasoning,
+
+  advisor,
+
+  audience
+
+};
 
   }
 

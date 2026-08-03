@@ -1,3 +1,6 @@
+import type { AdvisorResult } from "./AdvisorResult";
+import type { AudienceResult } from "./AudienceResult";
+
 export interface TimelineStep {
 
   period: string;
@@ -49,5 +52,9 @@ export interface AnalysisResult {
   timeline: TimelineStep[];
 
   reasoning: Reasoning;
+
+  advisor: AdvisorResult;
+
+  audience: AudienceResult;
 
 }
