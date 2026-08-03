@@ -10,6 +10,8 @@ import { KnowledgeEngine } from "./engines/KnowledgeEngine";
 import { ReasoningEngine } from "./engines/ReasoningEngine";
 import { AdvisorEngine } from "./engines/AdvisorEngine";
 import { AudienceEngine } from "./engines/AudienceEngine";
+import { BusinessModelEngine } from "./engines/BusinessModelEngine";
+import { RevenueEngine } from "./engines/RevenueEngine";
 
 import type { AnalysisResult } from "./models/AnalysisResult";
 
@@ -27,6 +29,8 @@ export class MonetBrain {
   private reasoningEngine: ReasoningEngine;
   private advisorEngine: AdvisorEngine;
   private audienceEngine: AudienceEngine;
+  private businessModelEngine: BusinessModelEngine;
+  private revenueEngine: RevenueEngine;
 
   constructor() {
 
@@ -42,6 +46,8 @@ export class MonetBrain {
     this.reasoningEngine = new ReasoningEngine();
     this.advisorEngine = new AdvisorEngine();
     this.audienceEngine = new AudienceEngine();
+    this.businessModelEngine = new BusinessModelEngine();
+    this.revenueEngine = new RevenueEngine();
 
   }
 
@@ -55,6 +61,15 @@ export class MonetBrain {
   keywords.category
 );
 
+const businessModel =
+  this.businessModelEngine.analyze(
+    keywords.category
+  );
+
+  const revenue =
+  this.revenueEngine.analyze(
+    keywords.category
+  );
 console.log("CATEGORY:", keywords.category);
 
 console.log("AUDIENCE:", audience);
@@ -133,7 +148,11 @@ console.log("AUDIENCE:", audience);
 
   advisor,
 
-  audience
+  audience,
+
+  businessModel,
+
+  revenue
 
 };
 

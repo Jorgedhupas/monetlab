@@ -1,5 +1,7 @@
 import type { AdvisorResult } from "./AdvisorResult";
 import type { AudienceResult } from "./AudienceResult";
+import type { BusinessModelResult } from "./BusinessModelResult";
+import type { RevenueResult } from "./RevenueResult";
 
 export interface TimelineStep {
 
@@ -56,5 +58,9 @@ export interface AnalysisResult {
   advisor: AdvisorResult;
 
   audience: AudienceResult;
+
+  businessModel: BusinessModelResult;
+
+  revenue: RevenueResult;
 
 }
