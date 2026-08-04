@@ -12,6 +12,9 @@ import { AdvisorEngine } from "./engines/AdvisorEngine";
 import { AudienceEngine } from "./engines/AudienceEngine";
 import { BusinessModelEngine } from "./engines/BusinessModelEngine";
 import { RevenueEngine } from "./engines/RevenueEngine";
+import { FinanceEngine } from "./engines/FinanceEngine";
+import { PricingEngine } from "./engines/PricingEngine";
+import { GrowthEngine } from "./engines/GrowthEngine";
 
 import type { AnalysisResult } from "./models/AnalysisResult";
 
@@ -31,6 +34,9 @@ export class MonetBrain {
   private audienceEngine: AudienceEngine;
   private businessModelEngine: BusinessModelEngine;
   private revenueEngine: RevenueEngine;
+  private financeEngine: FinanceEngine;
+  private pricingEngine: PricingEngine;
+  private growthEngine: GrowthEngine;
 
   constructor() {
 
@@ -48,6 +54,9 @@ export class MonetBrain {
     this.audienceEngine = new AudienceEngine();
     this.businessModelEngine = new BusinessModelEngine();
     this.revenueEngine = new RevenueEngine();
+    this.financeEngine = new FinanceEngine();
+    this.pricingEngine = new PricingEngine();
+    this.growthEngine = new GrowthEngine();
 
   }
 
@@ -70,6 +79,22 @@ const businessModel =
   this.revenueEngine.analyze(
     keywords.category
   );
+
+  const finance =
+  this.financeEngine.analyze(
+    keywords.category
+  );
+
+  const pricing =
+  this.pricingEngine.analyze(
+    keywords.category
+  );
+
+  const growth =
+  this.growthEngine.analyze(
+    keywords.category
+  );
+
 console.log("CATEGORY:", keywords.category);
 
 console.log("AUDIENCE:", audience);
@@ -152,7 +177,13 @@ console.log("AUDIENCE:", audience);
 
   businessModel,
 
-  revenue
+  revenue,
+
+  finance,
+
+  pricing,
+
+  growth
 
 };
 

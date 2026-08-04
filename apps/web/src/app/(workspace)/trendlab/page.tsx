@@ -1,39 +1,29 @@
 "use client";
 
 import { useState } from "react";
+import type { AnalysisResult } from "@/types";
 
 import ScoreCard from "@/app/components/trendlab/ScoreCard";
 import MetricsGrid from "@/app/components/trendlab/MetricsGrid";
 import PlatformsCard from "@/app/components/trendlab/PlatformsCard";
 import IdeasCard from "@/app/components/trendlab/IdeasCard";
 import TimelineCard from "@/app/components/trendlab/TimelineCard";
+import BusinessModelCard from "@/app/components/trendlab/BusinessModelCard";
+import FinanceCard from "@/app/components/trendlab/FinanceCard";
+import PricingCard from "@/app/components/trendlab/PricingCard";
+import GrowthCard from "@/app/components/trendlab/GrowthCard";
 
 type TimelineStep = {
   period: string;
   action: string;
 };
 
-type Resultado = {
-  score: number;
-  trend: string;
-  confidence: number;
-  market: string;
-  competition: string;
-  income: string;
-  aiRisk: string;
-  originality: number;
-  recommendation: string;
-  investmentLevel: string;
-  estimatedTime: string;
-  platforms: string[];
-  ideas: string[];
-  timeline: TimelineStep[];
-};
+
 
 export default function TrendLab() {
 
   const [idea, setIdea] = useState("");
-  const [resultado, setResultado] = useState<Resultado | null>(null);
+  const [resultado, setResultado] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function analizarIdea() {
@@ -58,11 +48,17 @@ export default function TrendLab() {
 
       });
 
-      const data: Resultado = await response.json();
+      const data: AnalysisResult = await response.json();
 
-      console.log("Resultado recibido:", data);
+console.log("RESULTADO COMPLETO");
+console.log(data);
 
-      setResultado(data);
+console.log("Growth:");
+console.log(data.growth);
+
+setResultado(data);
+
+      console.log("Growth:", data.growth);
 
     } catch (error) {
 
@@ -140,6 +136,21 @@ export default function TrendLab() {
             <TimelineCard
               timeline={resultado.timeline}
             />
+<BusinessModelCard
+  recommended={resultado.businessModel.recommended}
+  alternatives={resultado.businessModel.alternatives}
+/>
+<FinanceCard
+  finance={resultado.finance}
+/>
+<PricingCard
+  pricing={resultado.pricing}
+/>
+<div className="bg-green-900 p-6 rounded-xl overflow-auto">
+  <GrowthCard 
+  growth={resultado.growth} 
+  />
+</div>
 
           </div>
 

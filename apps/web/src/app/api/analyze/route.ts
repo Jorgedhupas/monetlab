@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { monetBrain } from "@/core/monetbrain";
+import { orchestrator } from "@/core/orchestrator/MonetOrchestrator";
 
 export async function POST(req:Request){
 
@@ -8,30 +8,25 @@ export async function POST(req:Request){
 
         const body=await req.json();
 
-        const resultado=monetBrain(body.idea);
+        const resultado = await orchestrator.analyze(body.idea);
 
         return NextResponse.json(resultado);
 
     }
 
-    catch{
+    catch (error) {
 
-        return NextResponse.json(
+    console.error("ERROR API:", error);
 
-            {
+    return NextResponse.json(
+        {
+            error: "Error interno"
+        },
+        {
+            status: 500
+        }
+    );
 
-                error:"Error interno"
-
-            },
-
-            {
-
-                status:500
-
-            }
-
-        );
-
-    }
+}
 
 }
