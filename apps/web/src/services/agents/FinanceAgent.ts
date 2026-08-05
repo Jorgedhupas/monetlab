@@ -1,32 +1,22 @@
-import { OpenAIProvider } from "../ai/OpenAIProvider";
+import { OpenAIProvider } from "@/services/ai/OpenAIProvider";
+import { FinancePrompt } from "@/core/prompts/FinancePrompt";
 
 export class FinanceAgent {
 
-    private ai = new OpenAIProvider();
+  private ai = new OpenAIProvider();
 
-    async execute(prompt:string){
+  async execute(prompt: string) {
 
-        console.log("💰 FinanceAgent");
+    console.log("💰 FinanceAgent ejecutándose...");
 
-        return await this.ai.analyze(`
-Eres un inversionista de Venture Capital.
+    return await this.ai.analyze(`
+${FinancePrompt}
 
-Analiza únicamente:
-
-- inversión inicial
-- costos
-- ROI
-- flujo de caja
-- punto de equilibrio
-- márgenes
-
-Responde únicamente JSON.
-
-Idea:
+Idea de negocio:
 
 ${prompt}
 `);
 
-    }
+  }
 
 }

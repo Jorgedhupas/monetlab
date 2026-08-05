@@ -1,16 +1,16 @@
 import { OpenAIProvider } from "@/services/ai/OpenAIProvider";
-import { MarketPrompt } from "@/core/prompts/MarketPrompt";
+import { RiskPrompt } from "@/core/prompts/RiskPrompt";
 
-export class MarketAgent {
+export class RiskAgent {
 
   private ai = new OpenAIProvider();
 
   async execute(prompt: string) {
 
-    console.log("📊 MarketAgent ejecutándose...");
+    console.log("⚠️ RiskAgent ejecutándose...");
 
     return await this.ai.analyze(`
-${MarketPrompt}
+${RiskPrompt}
 
 Idea de negocio:
 

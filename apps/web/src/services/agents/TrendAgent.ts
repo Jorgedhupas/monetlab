@@ -1,16 +1,16 @@
 import { OpenAIProvider } from "@/services/ai/OpenAIProvider";
-import { MarketPrompt } from "@/core/prompts/MarketPrompt";
+import { TrendPrompt } from "@/core/prompts/TrendPrompt";
 
-export class MarketAgent {
+export class TrendAgent {
 
   private ai = new OpenAIProvider();
 
   async execute(prompt: string) {
 
-    console.log("📊 MarketAgent ejecutándose...");
+    console.log("📈 TrendAgent ejecutándose...");
 
     return await this.ai.analyze(`
-${MarketPrompt}
+${TrendPrompt}
 
 Idea de negocio:
 

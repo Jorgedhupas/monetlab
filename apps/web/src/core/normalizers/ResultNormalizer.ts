@@ -1,76 +1,301 @@
-import { AnalysisResult } from "@/types/AnalysisResult";
+import type { AnalysisResult } from "@/core/monetbrain/models/AnalysisResult";
+
 
 export class ResultNormalizer {
+
+
   normalize(result: Partial<AnalysisResult>): AnalysisResult {
+
+
     return {
+
+
       score: result.score ?? 0,
+
       trend: result.trend ?? "Sin información",
+
       confidence: result.confidence ?? 0,
-      market: result.market ?? "",
-      competition: result.competition ?? "",
-      income: result.income ?? "",
-      aiRisk: result.aiRisk ?? "",
+
+
+      market: result.market ?? "Sin información",
+
+      competition: result.competition ?? "Sin información",
+
+      income: result.income ?? "Sin información",
+
+      aiRisk: result.aiRisk ?? "Sin información",
+
+
       originality: result.originality ?? 0,
-      recommendation: result.recommendation ?? "",
-      investmentLevel: result.investmentLevel ?? "",
-      estimatedTime: result.estimatedTime ?? "",
 
-      platforms: result.platforms ?? [],
-      ideas: result.ideas ?? [],
-      timeline: result.timeline ?? [],
 
-      businessModel: {
-        recommended: {
-          name: result.businessModel?.recommended?.name ?? "No definido",
-          score: result.businessModel?.recommended?.score ?? 0,
-          recurringRevenue:
-            result.businessModel?.recommended?.recurringRevenue ?? false,
-          scalability:
-            result.businessModel?.recommended?.scalability ?? "No definida",
-          complexity:
-            result.businessModel?.recommended?.complexity ?? "No definida",
-          description:
-            result.businessModel?.recommended?.description ?? "",
+      recommendation:
+        result.recommendation ?? "Sin recomendación",
+
+
+      investmentLevel:
+        result.investmentLevel ?? "No definido",
+
+
+      estimatedTime:
+        result.estimatedTime ?? "No definido",
+
+
+
+      platforms:
+        result.platforms ?? [],
+
+
+      ideas:
+        result.ideas ?? [],
+
+
+      timeline:
+        result.timeline ?? [],
+
+
+
+      reasoning:
+        result.reasoning ?? {
+
+          summary: "",
+
+          strengths: [],
+
+          weaknesses: [],
+
+          nextSteps: []
+
         },
 
-        alternatives:
-          result.businessModel?.alternatives?.map((item) => ({
-            name: item.name ?? "Modelo",
-            score: item.score ?? 0,
-            recurringRevenue: item.recurringRevenue ?? false,
-            scalability: item.scalability ?? "No definida",
-            complexity: item.complexity ?? "No definida",
-            description: item.description ?? "",
-          })) ?? [],
-      },
 
-      finance: {
-        initialInvestment: result.finance?.initialInvestment ?? 0,
-        monthlyCosts: result.finance?.monthlyCosts ?? 0,
-        breakEvenMonths: result.finance?.breakEvenMonths ?? 0,
-        roi: result.finance?.roi ?? 0,
-        estimatedProfit: result.finance?.estimatedProfit ?? 0,
-        cashFlow: result.finance?.cashFlow ?? "",
-      },
 
-      pricing: {
-        recommendedPrice: result.pricing?.recommendedPrice ?? 0,
-        minimumPrice: result.pricing?.minimumPrice ?? 0,
-        premiumPrice: result.pricing?.premiumPrice ?? 0,
-        grossMargin: result.pricing?.grossMargin ?? 0,
-        netMargin: result.pricing?.netMargin ?? 0,
-        averageTicket: result.pricing?.averageTicket ?? 0,
-      },
+      advisor:
+        result.advisor ?? {
 
-      growth: {
-        monthlyClients: result.growth?.monthlyClients ?? 0,
-        websiteVisitors: result.growth?.websiteVisitors ?? 0,
-        socialFollowers: result.growth?.socialFollowers ?? 0,
-        monthlyAdsBudget: result.growth?.monthlyAdsBudget ?? 0,
-        monthlyGrowthRate: result.growth?.monthlyGrowthRate ?? 0,
-      },
+          executiveSummary: "",
+
+          decision: "",
+
+          decisionScore: 0,
+
+          firstStep: "",
+
+          biggestRisk: "",
+
+          objective: "",
+
+          recommendedRevenueModels: []
+
+        },
+
+
+
+      audience:
+        result.audience ?? {
+
+          primaryAudience: "",
+
+          ageRange: "",
+
+          interests: [],
+
+          painPoints: [],
+
+          preferredPlatforms: [],
+
+          buyingPower: ""
+
+        },
+
+
+
+      businessModel:
+        result.businessModel ?? {
+
+          recommended: {
+
+            name: "No definido",
+
+            score: 0,
+
+            recurringRevenue: false,
+
+            scalability: "No definida",
+
+            complexity: "No definida",
+
+            description: ""
+
+          },
+
+          alternatives: []
+
+        },
+
+
+
+      finance:
+        result.finance ?? {
+
+          initialInvestment: 0,
+
+          monthlyCosts: 0,
+
+          breakEvenMonths: 0,
+
+          roi: 0,
+
+          estimatedProfit: 0,
+
+          cashFlow: ""
+
+        },
+
+
+
+      pricing:
+        result.pricing ?? {
+
+          recommendedPrice: 0,
+
+          minimumPrice: 0,
+
+          premiumPrice: 0,
+
+          grossMargin: 0,
+
+          netMargin: 0,
+
+          averageTicket: 0
+
+        },
+
+
+
+      growth:
+        result.growth ?? {
+
+          monthlyClients: 0,
+
+          websiteVisitors: 0,
+
+          socialFollowers: 0,
+
+          monthlyAdsBudget: 0,
+
+          monthlyGrowthRate: 0
+
+        },
+
+
+
+
+      revenue:
+        result.revenue ?? {
+
+
+          conservative: {
+
+            name: "",
+
+            monthlyRevenue: 0,
+
+            yearlyRevenue: 0,
+
+            estimatedClients: 0
+
+          },
+
+
+          expected: {
+
+            name: "",
+
+            monthlyRevenue: 0,
+
+            yearlyRevenue: 0,
+
+            estimatedClients: 0
+
+          },
+
+
+          optimistic: {
+
+            name: "",
+
+            monthlyRevenue: 0,
+
+            yearlyRevenue: 0,
+
+            estimatedClients: 0
+
+          }
+
+
+        },
+
+
+
+
+      executiveSummary:
+        result.executiveSummary ?? "",
+
+
+
+      strengths:
+        result.strengths ?? [],
+
+
+
+      weaknesses:
+        result.weaknesses ?? [],
+
+
+
+      contradictions:
+        result.contradictions ?? [],
+
+
+
+      finalDecision:
+        result.finalDecision ?? "",
+
+
+
+      priority:
+        result.priority ?? "",
+
+
+
+      strategy:
+        result.strategy ?? {
+
+          executiveSummary: "",
+
+          strengths: [],
+
+          weaknesses: [],
+
+          contradictions: [],
+
+          finalDecision: "",
+
+          priority: ""
+
+        }
+
+
+
     };
+
+
   }
+
+
 }
+
+
 
 export const resultNormalizer = new ResultNormalizer();

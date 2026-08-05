@@ -1,29 +1,35 @@
 "use client";
 
 import { useState } from "react";
+
 import type { AnalysisResult } from "@/types";
 
+import Section from "@/app/components/trendlab/Section";
+
 import ScoreCard from "@/app/components/trendlab/ScoreCard";
-import MetricsGrid from "@/app/components/trendlab/MetricsGrid";
-import PlatformsCard from "@/app/components/trendlab/PlatformsCard";
-import IdeasCard from "@/app/components/trendlab/IdeasCard";
-import TimelineCard from "@/app/components/trendlab/TimelineCard";
+import ExecutiveSummaryCard from "@/app/components/trendlab/ExecutiveSummaryCard";
+
+import MarketCard from "@/app/components/trendlab/MarketCard";
+import CompetitionCard from "@/app/components/trendlab/CompetitionCard";
+
 import BusinessModelCard from "@/app/components/trendlab/BusinessModelCard";
-import FinanceCard from "@/app/components/trendlab/FinanceCard";
 import PricingCard from "@/app/components/trendlab/PricingCard";
+
+import FinanceCard from "@/app/components/trendlab/FinanceCard";
+
 import GrowthCard from "@/app/components/trendlab/GrowthCard";
+import PlatformsCard from "@/app/components/trendlab/PlatformsCard";
 
-type TimelineStep = {
-  period: string;
-  action: string;
-};
-
-
+import TimelineCard from "@/app/components/trendlab/TimelineCard";
+import IdeasCard from "@/app/components/trendlab/IdeasCard";
 
 export default function TrendLab() {
 
   const [idea, setIdea] = useState("");
-  const [resultado, setResultado] = useState<AnalysisResult | null>(null);
+
+  const [resultado, setResultado] =
+    useState<AnalysisResult | null>(null);
+
   const [loading, setLoading] = useState(false);
 
   async function analizarIdea() {
@@ -48,17 +54,12 @@ export default function TrendLab() {
 
       });
 
-      const data: AnalysisResult = await response.json();
+      const data: AnalysisResult =
+        await response.json();
 
-console.log("RESULTADO COMPLETO");
-console.log(data);
+      console.log(data);
 
-console.log("Growth:");
-console.log(data.growth);
-
-setResultado(data);
-
-      console.log("Growth:", data.growth);
+      setResultado(data);
 
     } catch (error) {
 
@@ -74,9 +75,9 @@ setResultado(data);
 
   return (
 
-    <main className="min-h-screen bg-slate-950 text-white p-10">
+    <main className="min-h-screen bg-slate-950 text-white">
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-8 py-10">
 
         <h1 className="text-5xl font-black">
           📈 TrendLab
@@ -92,7 +93,7 @@ setResultado(data);
             type="text"
             value={idea}
             onChange={(e) => setIdea(e.target.value)}
-            placeholder="Ej: Café Premium, Jabón artesanal, IA..."
+            placeholder="Describe tu idea de negocio..."
             className="w-full bg-slate-800 border border-slate-700 rounded-xl p-4"
           />
 
@@ -101,56 +102,107 @@ setResultado(data);
             disabled={loading}
             className="mt-6 bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl font-semibold disabled:bg-slate-700"
           >
-            {loading ? "Analizando..." : "Analizar"}
+            {loading
+              ? "Analizando..."
+              : "Analizar Idea"}
           </button>
 
         </div>
 
         {resultado && (
 
-          <div className="mt-10 space-y-8">
+          <div className="mt-14 space-y-16">
 
-            <ScoreCard
-              score={resultado.score}
-            />
+            <Section
+              title="Resumen Ejecutivo"
+              subtitle="Visión general del análisis."
+            >
 
-            <MetricsGrid
-              market={resultado.market}
-              competition={resultado.competition}
-              income={resultado.income}
-              aiRisk={resultado.aiRisk}
-              originality={resultado.originality}
-              recommendation={resultado.recommendation}
-              investmentLevel={resultado.investmentLevel}
-              estimatedTime={resultado.estimatedTime}
-            />
+              <ScoreCard
+                score={resultado.score}
+              />
 
-            <PlatformsCard
-              platforms={resultado.platforms}
-            />
+              <ExecutiveSummaryCard
+                score={resultado.score}
+                confidence={resultado.confidence}
+                executiveSummary={resultado.executiveSummary ?? ""}
+                recommendation={resultado.recommendation ?? ""}
+                finalDecision={resultado.finalDecision ?? ""}
+              />
 
-            <IdeasCard
-              ideas={resultado.ideas}
-            />
+            </Section>
 
-            <TimelineCard
-              timeline={resultado.timeline}
-            />
-<BusinessModelCard
-  recommended={resultado.businessModel.recommended}
-  alternatives={resultado.businessModel.alternatives}
-/>
-<FinanceCard
-  finance={resultado.finance}
-/>
-<PricingCard
-  pricing={resultado.pricing}
-/>
-<div className="bg-green-900 p-6 rounded-xl overflow-auto">
-  <GrowthCard 
-  growth={resultado.growth} 
-  />
-</div>
+            <Section
+              title="Mercado"
+              subtitle="Análisis del tamaño del mercado y del entorno competitivo."
+            >
+
+              <MarketCard
+                market={resultado.market}
+              />
+
+              <CompetitionCard
+                competition={resultado.competition}
+              />
+
+            </Section>
+
+            <Section
+              title="Modelo de Negocio"
+              subtitle="Cómo monetizar la oportunidad."
+            >
+
+              <BusinessModelCard
+                recommended={resultado.businessModel.recommended}
+                alternatives={resultado.businessModel.alternatives}
+              />
+
+              <PricingCard
+                pricing={resultado.pricing}
+              />
+
+            </Section>
+
+            <Section
+              title="Finanzas"
+              subtitle="Indicadores financieros."
+            >
+
+              <FinanceCard
+                finance={resultado.finance}
+              />
+
+            </Section>
+
+            <Section
+              title="Crecimiento"
+              subtitle="Escalabilidad y canales."
+            >
+
+              <GrowthCard
+                growth={resultado.growth}
+              />
+
+              <PlatformsCard
+                platforms={resultado.platforms}
+              />
+
+            </Section>
+
+            <Section
+              title="Plan de Ejecución"
+              subtitle="Primeros pasos recomendados."
+            >
+
+              <TimelineCard
+                timeline={resultado.timeline}
+              />
+
+              <IdeasCard
+                ideas={resultado.ideas}
+              />
+
+            </Section>
 
           </div>
 

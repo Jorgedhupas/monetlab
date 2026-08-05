@@ -1,149 +1,307 @@
-import { Resultado } from "@/types/Resultado";
+import type { AnalysisResult } from "@/core/monetbrain/models/AnalysisResult";
 
 export class ResultValidator {
 
-  validate(data: any): Resultado {
 
-    return {
+validate(data:any):AnalysisResult{
 
-      score: data.score ?? 0,
 
-      trend: data.trend ?? "Sin información",
+return {
 
-      confidence: data.confidence ?? 0,
 
-      market: data.market ?? "Sin información",
+score:
+data.score ??
+data.viabilidad ??
+data.atractivo ??
+0,
 
-      competition: data.competition ?? "Sin información",
 
-      income: data.income ?? "Sin información",
+trend:
+data.trend ??
+data.tendencia ??
+"Sin información",
 
-      aiRisk: data.aiRisk ?? "Sin información",
 
-      originality: data.originality ?? 0,
+confidence:
+data.confidence ??
+data.confianza ??
+70,
 
-      recommendation: data.recommendation ?? "Sin información",
 
-      investmentLevel: data.investmentLevel ?? "No definido",
+market:
+data.market ??
+data.mercado ??
+data.analisis_mercado ??
+"Sin información",
 
-      estimatedTime: data.estimatedTime ?? "No definido",
 
-      platforms: data.platforms ?? [],
+competition:
+data.competition ??
+data.competencia ??
+"Sin información",
 
-      ideas: data.ideas ?? [],
 
-      timeline: data.timeline ?? [],
+income:
+data.income ??
+data.ingresos ??
+data.modelo_ingresos ??
+"Sin información",
 
-      businessModel: {
 
-        recommended:
+aiRisk:
+data.aiRisk ??
+data.risk ??
+data.riesgos ??
+"Sin información",
 
-          data.businessModel?.recommended ?? {
 
-            name: "No disponible",
+originality:
+data.originality ??
+data.originalidad ??
+0,
 
-            score: 0,
 
-            recurringRevenue: false,
+recommendation:
+data.recommendation ??
+data.recomendacion ??
+"Sin información",
 
-            scalability: "No definida",
 
-            complexity: "No definida",
+investmentLevel:
+data.investmentLevel ??
+data.nivel_inversion ??
+"No definido",
 
-            description: "Sin información"
 
-          },
+estimatedTime:
+data.estimatedTime ??
+data.tiempo_estimado ??
+"No definido",
 
-        alternatives:
 
-          data.businessModel?.alternatives ?? []
+platforms:
+data.platforms ?? [],
 
-      },
 
-      finance: {
+ideas:
+data.ideas ?? [],
 
-        initialInvestment:
 
-          data.finance?.initialInvestment ?? 0,
+timeline:
+data.timeline ?? [],
 
-        monthlyCosts:
 
-          data.finance?.monthlyCosts ?? 0,
 
-        breakEvenMonths:
+businessModel:{
 
-          data.finance?.breakEvenMonths ?? 0,
 
-        roi:
+recommended:
+data.businessModel?.recommended ??
+{
+name:"Modelo no definido",
+score:0,
+recurringRevenue:false,
+scalability:"Pendiente",
+complexity:"Pendiente",
+description:""
+},
 
-          data.finance?.roi ?? 0,
 
-        estimatedProfit:
+alternatives:
+data.businessModel?.alternatives ?? []
 
-          data.finance?.estimatedProfit ?? 0,
+},
 
-        cashFlow:
 
-          data.finance?.cashFlow ?? "Sin información"
 
-      },
+finance:{
 
-      pricing: {
 
-        recommendedPrice:
+initialInvestment:
+data.finance?.initialInvestment ??
+data.inversion_inicial?.total ??
+0,
 
-          data.pricing?.recommendedPrice ?? 0,
 
-        minimumPrice:
+monthlyCosts:
+data.finance?.monthlyCosts ??
+0,
 
-          data.pricing?.minimumPrice ?? 0,
 
-        premiumPrice:
+breakEvenMonths:
+data.finance?.breakEvenMonths ??
+data.punto_de_equilibrio?.meses ??
+0,
 
-          data.pricing?.premiumPrice ?? 0,
 
-        grossMargin:
+roi:
+data.finance?.roi ??
+data.ROI?.escenarios?.base?.ROI_anual ??
+0,
 
-          data.pricing?.grossMargin ?? 0,
 
-        netMargin:
+estimatedProfit:
+data.finance?.estimatedProfit ??
+data.rentabilidad?.base?.ebitda_aprox_anual ??
+0,
 
-          data.pricing?.netMargin ?? 0,
 
-        averageTicket:
+cashFlow:
+data.finance?.cashFlow ??
+JSON.stringify(data.flujo_de_caja ?? {})
+},
 
-          data.pricing?.averageTicket ?? 0
 
-      },
 
-      growth: {
+pricing:{
 
-        monthlyClients:
 
-          data.growth?.monthlyClients ?? 0,
+recommendedPrice:
+data.pricing?.recommendedPrice ??
+data.precio ??
+0,
 
-        websiteVisitors:
 
-          data.growth?.websiteVisitors ?? 0,
+minimumPrice:
+data.pricing?.minimumPrice ??
+0,
 
-        socialFollowers:
 
-          data.growth?.socialFollowers ?? 0,
+premiumPrice:
+data.pricing?.premiumPrice ??
+0,
 
-        monthlyAdsBudget:
 
-          data.growth?.monthlyAdsBudget ?? 0,
+grossMargin:
+data.margenes?.margen_bruto_pct ??
+0,
 
-        monthlyGrowthRate:
 
-          data.growth?.monthlyGrowthRate ?? 0
+netMargin:
+data.margenes?.margen_ebitda_pct_base ??
+0,
 
-      }
 
-    };
+averageTicket:
+0
 
-  }
+},
+
+
+
+reasoning: {
+
+summary: "",
+
+strengths: [],
+
+weaknesses: [],
+
+nextSteps: []
+
+},
+
+
+advisor: {
+
+executiveSummary: "",
+
+decision: "",
+
+decisionScore: 0,
+
+firstStep: "",
+
+biggestRisk: "",
+
+objective: "",
+
+recommendedRevenueModels: []
+
+},
+
+
+audience: {
+
+primaryAudience: "",
+
+ageRange: "",
+
+interests: [],
+
+painPoints: [],
+
+preferredPlatforms: [],
+
+buyingPower: ""
+
+},
+
+
+revenue: {
+
+conservative: {
+
+name: "",
+
+monthlyRevenue: 0,
+
+yearlyRevenue: 0,
+
+estimatedClients: 0
+
+},
+
+expected: {
+
+name: "",
+
+monthlyRevenue: 0,
+
+yearlyRevenue: 0,
+
+estimatedClients: 0
+
+},
+
+optimistic: {
+
+name: "",
+
+monthlyRevenue: 0,
+
+yearlyRevenue: 0,
+
+estimatedClients: 0
 
 }
+
+},
+
+
+growth:{
+
+
+monthlyClients:0,
+
+websiteVisitors:0,
+
+socialFollowers:0,
+
+monthlyAdsBudget:0,
+
+monthlyGrowthRate:0
+
+}
+
+
+};
+
+
+}
+
+
+}
+
 
 export const resultValidator = new ResultValidator();
