@@ -1,38 +1,20 @@
-type MarketResult =
-  | string
-  | {
-      score?: number;
-      classification?: string;
-      explanation?: string;
-
-      TAM_SAM_SOM?: {
-        rangos_USD?: {
-          TAM_anual?: string;
-          SAM_3_anios?: string;
-          SOM_3_anios?: string;
-        };
-      };
-
-      growthRate?: string;
-      demandTrend?: string;
-      entryDifficulty?: string;
-      saturation?: string;
-    };
+import type { MarketResult } from "@/core/monetbrain/models/MarketResult";
 
 type Props = {
-  market: MarketResult;
+  market: MarketResult | string;
 };
 
-export default function MarketCard({ market }: Props) {
+export default function MarketCard({
+  market,
+}: Props) {
+
   if (typeof market === "string") {
     return (
-      <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-        <h2 className="text-2xl font-bold mb-6">🌍 Mercado</h2>
-
+      <Card title="🌍 Mercado">
         <p className="text-slate-300 whitespace-pre-line">
           {market}
         </p>
-      </div>
+      </Card>
     );
   }
 
@@ -46,13 +28,10 @@ export default function MarketCard({ market }: Props) {
     market.TAM_SAM_SOM?.rangos_USD?.SOM_3_anios ?? "-";
 
   return (
-    <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
 
-      <h2 className="text-2xl font-bold mb-6">
-        🌍 Mercado
-      </h2>
+    <Card title="🌍 Mercado">
 
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
+      <div className="grid md:grid-cols-3 gap-4 mb-8">
 
         <Metric
           title="TAM"
@@ -71,38 +50,76 @@ export default function MarketCard({ market }: Props) {
 
       </div>
 
-      <Section
-        title="Clasificación"
-        value={market.classification}
-      />
+      {market.resumen && (
+        <Section
+          title="Resumen"
+          text={market.resumen}
+        />
+      )}
 
-      <Section
-        title="Explicación"
-        value={market.explanation}
-      />
+      {market.demanda_estacional && (
+        <Section
+          title="Demanda"
+          text={market.demanda_estacional}
+        />
+      )}
 
-      <Section
-        title="Crecimiento"
-        value={market.growthRate}
-      />
+      {market.segmentos_objetivo &&
+        market.segmentos_objetivo.length > 0 && (
 
-      <Section
-        title="Tendencia"
-        value={market.demandTrend}
-      />
+        <div>
 
-      <Section
-        title="Dificultad de entrada"
-        value={market.entryDifficulty}
-      />
+          <h3 className="text-lg font-semibold mb-4">
+            Segmentos objetivo
+          </h3>
 
-      <Section
-        title="Saturación"
-        value={market.saturation}
-      />
+          <div className="grid gap-3">
+
+            {market.segmentos_objetivo.map((segmento, index) => (
+
+              <div
+                key={index}
+                className="bg-slate-800 rounded-xl p-4 border border-slate-700"
+              >
+                {segmento}
+              </div>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      )}
+
+    </Card>
+
+  );
+
+}
+
+function Card({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+
+  return (
+
+    <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-lg">
+
+      <h2 className="text-2xl font-bold mb-8">
+        {title}
+      </h2>
+
+      {children}
 
     </div>
+
   );
+
 }
 
 function Metric({
@@ -110,39 +127,49 @@ function Metric({
   value,
 }: {
   title: string;
-  value?: string;
+  value: string;
 }) {
+
   return (
-    <div className="bg-slate-800 rounded-xl p-4">
-      <div className="text-slate-400 text-sm">
+
+    <div className="bg-slate-800 rounded-xl p-5 text-center">
+
+      <div className="text-sm text-slate-400">
         {title}
       </div>
 
-      <div className="text-xl font-bold mt-2">
-        {value ?? "-"}
+      <div className="text-xl font-bold text-cyan-400 mt-2">
+        {value}
       </div>
+
     </div>
+
   );
+
 }
 
 function Section({
   title,
-  value,
+  text,
 }: {
   title: string;
-  value?: string;
+  text: string;
 }) {
-  if (!value) return null;
 
   return (
-    <div className="mb-5">
-      <h3 className="font-semibold mb-2">
+
+    <div className="mb-8">
+
+      <h3 className="font-semibold text-lg mb-3">
         {title}
       </h3>
 
-      <p className="text-slate-300 whitespace-pre-line">
-        {value}
+      <p className="text-slate-300 leading-8 whitespace-pre-line">
+        {text}
       </p>
+
     </div>
+
   );
+
 }

@@ -1,4 +1,4 @@
-import type { CompetitionResult } from "@/core/monetbrain/models/AnalysisResult";
+import type { CompetitionResult } from "@/core/monetbrain/models/CompetitionResult";
 
 type Props = {
   competition: CompetitionResult | string;

@@ -1,77 +1,105 @@
-type Finance = {
-  initialInvestment: number;
-  monthlyCosts: number;
-  breakEvenMonths: number;
-  roi: number;
-  estimatedProfit: number;
-  cashFlow: string;
-};
+import type { FinanceResult } from "@/core/monetbrain/models/FinanceResult";
 
 type Props = {
-  finance: Finance;
+  finance: FinanceResult;
 };
 
-const money = (value: number) =>
-  new Intl.NumberFormat("es-CO", {
+function money(value: number) {
+  return new Intl.NumberFormat("es-CO", {
     style: "currency",
     currency: "COP",
     maximumFractionDigits: 0,
   }).format(value);
+}
 
-export default function FinanceCard({ finance }: Props) {
+export default function FinanceCard({
+  finance,
+}: Props) {
+
   return (
-    <div className="bg-slate-900 rounded-2xl p-8">
+
+    <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
       <h2 className="text-2xl font-bold mb-8">
-        💰 Finanzas Proyectadas
+        💰 Finanzas
       </h2>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-5">
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Inversión Inicial</p>
-          <p className="text-2xl font-bold text-green-400">
-            {money(finance.initialInvestment)}
-          </p>
-        </div>
+        <Metric
+          title="Inversión inicial"
+          value={money(finance.initialInvestment)}
+          color="text-cyan-400"
+        />
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Costos Mensuales</p>
-          <p className="text-2xl font-bold">
-            {money(finance.monthlyCosts)}
-          </p>
-        </div>
+        <Metric
+          title="Costos mensuales"
+          value={money(finance.monthlyCosts)}
+          color="text-orange-400"
+        />
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">ROI</p>
-          <p className="text-2xl font-bold text-blue-400">
-            {finance.roi}%
-          </p>
-        </div>
+        <Metric
+          title="Punto de equilibrio"
+          value={`${finance.breakEvenMonths} meses`}
+          color="text-green-400"
+        />
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Punto de Equilibrio</p>
-          <p className="text-2xl font-bold">
-            {finance.breakEvenMonths} meses
-          </p>
-        </div>
+        <Metric
+          title="ROI"
+          value={`${finance.roi}%`}
+          color="text-purple-400"
+        />
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Utilidad Estimada</p>
-          <p className="text-2xl font-bold text-green-400">
-            {money(finance.estimatedProfit)}
-          </p>
-        </div>
+        <Metric
+          title="Utilidad estimada"
+          value={money(finance.estimatedProfit)}
+          color="text-emerald-400"
+        />
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Flujo de Caja</p>
-          <p className="text-2xl font-bold text-yellow-400">
-            {finance.cashFlow}
-          </p>
-        </div>
+      </div>
+
+      <div className="mt-8 bg-slate-800 rounded-xl p-6">
+
+        <h3 className="text-lg font-semibold mb-3">
+          Flujo de caja
+        </h3>
+
+        <p className="text-slate-300 whitespace-pre-line leading-8">
+          {finance.cashFlow}
+        </p>
 
       </div>
 
     </div>
+
   );
+
+}
+
+function Metric({
+  title,
+  value,
+  color,
+}: {
+  title: string;
+  value: string;
+  color: string;
+}) {
+
+  return (
+
+    <div className="bg-slate-800 rounded-xl p-5">
+
+      <div className="text-sm text-slate-400">
+        {title}
+      </div>
+
+      <div className={`text-xl font-bold mt-3 ${color}`}>
+        {value}
+      </div>
+
+    </div>
+
+  );
+
 }

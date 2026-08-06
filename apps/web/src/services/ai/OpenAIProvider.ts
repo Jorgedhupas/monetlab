@@ -1,6 +1,8 @@
 import OpenAI from "openai";
+import { jsonResponseParser } from "@/services/ai/JsonResponseParser";
+import type { AIProvider } from "./AIProvider";
 
-export class OpenAIProvider {
+export class OpenAIProvider implements AIProvider {
 
       name = "OpenAI";
 
@@ -11,11 +13,14 @@ export class OpenAIProvider {
 
   async analyze(prompt: string) {
 
-    console.log("🤖 OpenAI Provider");
-    console.log("Consultando GPT...");
+  console.log("🤖 OpenAI Provider");
+  console.log("Consultando GPT...");
 
+  console.log("========= PROMPT ENVIADO =========");
+  console.log(prompt);
+  console.log("==================================");
 
-    const completion = await this.client.chat.completions.create({
+  const completion = await this.client.chat.completions.create({
 
       model: "gpt-5",
 
@@ -35,10 +40,8 @@ export class OpenAIProvider {
       completion.choices[0].message.content ?? "{}";
 
 
-    const clean = content
-      .replace(/```json/g, "")
-      .replace(/```/g, "")
-      .trim();
+    const clean =
+  jsonResponseParser.clean(content);
 
 
 
@@ -50,7 +53,8 @@ export class OpenAIProvider {
 
     try {
 
-      const parsed = JSON.parse(clean);
+      const parsed =
+  jsonResponseParser.parse(content);
 
 console.log("===== JSON PARSEADO =====");
 console.log(JSON.stringify(parsed,null,2));
@@ -184,3 +188,4 @@ return parsed;
   }
 
 }
+export const openAIProvider = new OpenAIProvider();

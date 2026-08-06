@@ -1,171 +1,176 @@
-type BusinessModel = {
-  name: string;
-  score: number;
-  recurringRevenue: boolean;
-  scalability: string;
-  complexity: string;
-  description: string;
-};
+import type { BusinessModelResult } from "@/core/monetbrain/models/BusinessModelResult";
+
 
 type Props = {
-  recommended: BusinessModel;
-  alternatives: BusinessModel[];
+  recommended: BusinessModelResult["recommended"];
+  alternatives: BusinessModelResult["alternatives"];
 };
+
 
 export default function BusinessModelCard({
   recommended,
   alternatives,
 }: Props) {
-  return (
-    <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
 
-      <h2 className="text-2xl font-bold text-white mb-6">
-        Modelo de Negocio
+
+  return (
+
+    <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+
+
+      <h2 className="text-2xl font-bold mb-8">
+        🚀 Modelo de negocio
       </h2>
 
-      {/* Modelo recomendado */}
 
-      <div className="bg-emerald-900/20 border border-emerald-600 rounded-xl p-6 mb-8">
+      <div className="bg-gradient-to-br from-blue-900/40 to-slate-800 rounded-2xl p-6 border border-blue-700 mb-8">
 
-        <div className="flex items-center justify-between mb-4">
 
-          <h3 className="text-xl font-bold text-emerald-400">
-            ⭐ Modelo recomendado
+        <div className="flex justify-between items-start mb-5">
+
+
+          <h3 className="text-2xl font-bold text-blue-300">
+            {recommended.name}
           </h3>
 
-          <span className="bg-emerald-600 px-3 py-1 rounded-full text-sm font-semibold">
-            {recommended?.score ?? 0}/100
+
+          <span className="bg-blue-600 px-4 py-2 rounded-full font-bold">
+            {recommended.score}/100
           </span>
+
 
         </div>
 
-        <h4 className="text-lg font-semibold text-white mb-3">
-          {recommended?.name ?? "No definido"}
-        </h4>
 
-        <p className="text-slate-300 leading-relaxed mb-5">
-          {recommended?.description ?? "Sin descripción."}
+        <p className="text-slate-300 leading-8 mb-6">
+          {recommended.description}
         </p>
+
 
         <div className="grid md:grid-cols-3 gap-4">
 
-          <div className="bg-slate-800 rounded-lg p-4">
 
-            <p className="text-slate-400 text-sm">
-              Ingresos recurrentes
-            </p>
+          <Metric
+            title="Ingresos recurrentes"
+            value={
+              recommended.recurringRevenue
+                ? "Sí"
+                : "No"
+            }
+          />
 
-            <p className="font-bold text-white mt-1">
-              {recommended?.recurringRevenue ? "Sí" : "No"}
-            </p>
 
-          </div>
+          <Metric
+            title="Escalabilidad"
+            value={recommended.scalability}
+          />
 
-          <div className="bg-slate-800 rounded-lg p-4">
 
-            <p className="text-slate-400 text-sm">
-              Escalabilidad
-            </p>
+          <Metric
+            title="Complejidad"
+            value={recommended.complexity}
+          />
 
-            <p className="font-bold text-white mt-1">
-              {recommended?.scalability ?? "-"}
-            </p>
-
-          </div>
-
-          <div className="bg-slate-800 rounded-lg p-4">
-
-            <p className="text-slate-400 text-sm">
-              Complejidad
-            </p>
-
-            <p className="font-bold text-white mt-1">
-              {recommended?.complexity ?? "-"}
-            </p>
-
-          </div>
 
         </div>
 
+
       </div>
 
-      {/* Alternativas */}
 
-      <h3 className="text-lg font-bold text-white mb-4">
-        Otras alternativas
-      </h3>
+      {alternatives.length > 0 && (
 
-      <div className="grid md:grid-cols-3 gap-5">
+        <div>
 
-        {(alternatives ?? []).map((model, index) => (
 
-          <div
-            key={`${model?.name ?? "modelo"}-${index}`}
-            className="bg-slate-800 rounded-xl p-5 border border-slate-700 hover:border-slate-500 transition"
-          >
+          <h3 className="text-lg font-semibold mb-5">
+            Modelos alternativos
+          </h3>
 
-            <div className="flex items-center justify-between mb-3">
 
-              <h4 className="font-semibold text-white">
-                {model?.name ?? "Modelo"}
-              </h4>
+          <div className="grid md:grid-cols-2 gap-5">
 
-              <span className="text-emerald-400 font-bold">
-                {model?.score ?? 0}
-              </span>
 
-            </div>
+            {alternatives.map((model, index) => (
 
-            <p className="text-slate-300 text-sm leading-relaxed mb-4">
-              {model?.description ?? "Sin descripción"}
-            </p>
+              <div
+                key={index}
+                className="bg-slate-800 rounded-xl p-5 border border-slate-700"
+              >
 
-            <div className="space-y-2 text-sm">
 
-              <div className="flex justify-between">
+                <div className="flex justify-between mb-4">
 
-                <span className="text-slate-400">
-                  Recurrente
-                </span>
 
-                <span className="text-white">
-                  {model?.recurringRevenue ? "Sí" : "No"}
-                </span>
+                  <h4 className="font-bold text-lg">
+                    {model.name}
+                  </h4>
 
-              </div>
 
-              <div className="flex justify-between">
+                  <span className="text-blue-400 font-bold">
+                    {model.score}
+                  </span>
 
-                <span className="text-slate-400">
-                  Escalabilidad
-                </span>
 
-                <span className="text-white">
-                  {model?.scalability ?? "-"}
-                </span>
+                </div>
+
+
+                <p className="text-slate-400 leading-7">
+                  {model.description}
+                </p>
+
 
               </div>
 
-              <div className="flex justify-between">
+            ))}
 
-                <span className="text-slate-400">
-                  Complejidad
-                </span>
-
-                <span className="text-white">
-                  {model?.complexity ?? "-"}
-                </span>
-
-              </div>
-
-            </div>
 
           </div>
 
-        ))}
 
-      </div>
+        </div>
+
+      )}
+
 
     </div>
+
   );
+
+}
+
+
+
+function Metric({
+
+  title,
+  value,
+
+}: {
+
+  title: string;
+  value: string;
+
+}) {
+
+
+  return (
+
+    <div className="bg-slate-900 rounded-xl p-4">
+
+
+      <div className="text-sm text-slate-400">
+        {title}
+      </div>
+
+
+      <div className="font-bold mt-2">
+        {value}
+      </div>
+
+
+    </div>
+
+  );
+
 }

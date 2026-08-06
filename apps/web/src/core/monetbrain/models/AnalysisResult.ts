@@ -5,6 +5,9 @@ import type { RevenueResult } from "./RevenueResult";
 import type { FinanceResult } from "./FinanceResult";
 import type { PricingResult } from "./PricingResult";
 import type { GrowthResult } from "./GrowthResult";
+import type { MarketResult } from "./MarketResult";
+import type { CompetitionResult } from "./CompetitionResult";
+import type { RiskResult } from "./RiskResult";
 
 
 export interface TimelineStep {
@@ -25,87 +28,6 @@ export interface Reasoning {
 
 }
 
-
-export interface MarketResult {
-
-  resumen?: string;
-
-  segmentos_objetivo?: string[];
-
-  TAM_SAM_SOM?: {
-
-    metodologia?: string;
-
-    rangos_USD?: {
-
-      TAM_anual?: string;
-
-      SAM_3_anios?: string;
-
-      SOM_3_anios?: string;
-
-    };
-
-  };
-
-
-  demanda_estacional?: string;
-
-
-  competencia?: unknown;
-
-}
-
-
-export interface CompetitionResult {
-
-  panorama?: string;
-
-  jugadores_masivos_nacionales_y_multinacionales?: string[];
-
-  jugadores_premium_artesanales_y_afines?: string[];
-
-  sustitutos_y_categorias_adyacentes?: string[];
-
-  canales_de_venta_relevantes?: string[];
-
-  intensidad_competitiva?: string;
-
-}
-
-
-export interface RiskItem {
-
-  id?: string;
-
-  nombre?: string;
-
-  descripcion?: string;
-
-  probabilidad?: string;
-
-  impacto?: string;
-
-  criticidad?: string;
-
-  mitigacion?: string[];
-
-}
-
-
-export interface RiskResult {
-
-  financieros?: RiskItem[];
-
-  legales?: RiskItem[];
-
-  tecnologicos?: RiskItem[];
-
-  operativos?: RiskItem[];
-
-  comerciales?: RiskItem[];
-
-}
 
 
 export interface CashFlowResult {

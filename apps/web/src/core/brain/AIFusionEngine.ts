@@ -158,11 +158,8 @@ export class AIFusionEngine {
 
       trend:
 
-        trend.trend ||
-
-        market.trend ||
-
-        "Sin información",
+  trend.trend ??
+  "Sin información",
 
 
 
@@ -170,34 +167,16 @@ export class AIFusionEngine {
 
       market:
 
-        this.unique([
-
-          market.market,
-
-          finance.market,
-
-          risk.market,
-
-          trend.market
-
-        ]).join("\n\n"),
+  market.market ??
+  "Sin información",
 
 
 
 
       competition:
 
-        this.unique([
-
-          market.competition,
-
-          finance.competition,
-
-          risk.competition,
-
-          trend.competition
-
-        ]).join("\n\n"),
+  market.competition ??
+  "Sin información",
 
 
 
@@ -223,17 +202,8 @@ export class AIFusionEngine {
 
       aiRisk:
 
-        this.unique([
-
-          market.aiRisk,
-
-          finance.aiRisk,
-
-          risk.aiRisk,
-
-          trend.aiRisk
-
-        ]).join("\n\n"),
+  risk.aiRisk ??
+  "Sin información",
 
 
 
@@ -262,19 +232,9 @@ export class AIFusionEngine {
 
       recommendation:
 
-        this.unique([
-
-          market.recommendation,
-
-          finance.recommendation,
-
-          risk.recommendation,
-
-          trend.recommendation,
-
-          strategy.finalDecision
-
-        ]).join("\n\n"),
+  strategy.investmentRecommendation ??
+  strategy.finalDecision ??
+  "",
 
 
 
@@ -305,17 +265,7 @@ export class AIFusionEngine {
 
       platforms:
 
-        this.unique([
-
-          ...(market.platforms || []),
-
-          ...(finance.platforms || []),
-
-          ...(risk.platforms || []),
-
-          ...(trend.platforms || [])
-
-        ]),
+  market.platforms ?? [],
 
 
 
@@ -323,32 +273,14 @@ export class AIFusionEngine {
 
       ideas:
 
-        this.unique([
-
-          ...(market.ideas || []),
-
-          ...(finance.ideas || []),
-
-          ...(risk.ideas || []),
-
-          ...(trend.ideas || [])
-
-        ]),
+  market.ideas ?? [],
 
 
 
 
-      timeline:[
+      timeline:
 
-        ...(market.timeline || []),
-
-        ...(finance.timeline || []),
-
-        ...(risk.timeline || []),
-
-        ...(trend.timeline || [])
-
-      ],
+  market.timeline ?? [],
 
 
 

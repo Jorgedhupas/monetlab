@@ -2,6 +2,6 @@ export interface AIProvider {
 
   name: string;
 
-  analyze(prompt: string): Promise<string>;
+  analyze(prompt: string): Promise<unknown>;
 
 }

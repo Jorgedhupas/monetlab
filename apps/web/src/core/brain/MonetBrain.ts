@@ -3,6 +3,7 @@ import { FinanceAgent } from "@/services/agents/FinanceAgent";
 import { RiskAgent } from "@/services/agents/RiskAgent";
 import { TrendAgent } from "@/services/agents/TrendAgent";
 import { StrategyAgent } from "@/services/agents/StrategyAgent";
+import { discussionEngine } from "@/core/discussion/DiscussionEngine";
 
 export class MonetBrain {
 
@@ -42,28 +43,39 @@ console.log(JSON.stringify(risk,null,2));
 console.log("TREND RESULT:");
 console.log(JSON.stringify(trend,null,2));
 
-    const strategy = await this.strategy.execute({
+    const discussion = discussionEngine.discuss({
 
-      market,
-      finance,
-      risk,
-      trend
+  market,
+  finance,
+  risk,
+  trend
 
-    });
+});
+
+const strategy = await this.strategy.execute({
+
+  market,
+  finance,
+  risk,
+  trend,
+  discussion
+
+});
 
     console.log("👔 StrategyAgent terminó.");
 
     return {
 
-      market,
-      finance,
-      risk,
-      trend,
-      strategy,
+  market,
+  finance,
+  risk,
+  trend,
+  discussion,
+  strategy,
 
-      generatedAt: new Date().toISOString()
+  generatedAt: new Date().toISOString()
 
-    };
+};
 
   }
 

@@ -1,5 +1,7 @@
 import type { AnalysisResult } from "@/core/monetbrain/models/AnalysisResult";
-
+import { marketNormalizer } from "@/core/normalizers/MarketNormalizer";
+import { financeNormalizer } from "@/core/normalizers/FinanceNormalizer";
+import { riskNormalizer } from "@/core/normalizers/RiskNormalizer";
 
 export class ResultNormalizer {
 
@@ -17,13 +19,14 @@ export class ResultNormalizer {
       confidence: result.confidence ?? 0,
 
 
-      market: result.market ?? "Sin información",
+      market: marketNormalizer.normalize(result.market),
 
       competition: result.competition ?? "Sin información",
 
       income: result.income ?? "Sin información",
 
-      aiRisk: result.aiRisk ?? "Sin información",
+      aiRisk:
+  riskNormalizer.normalize(result.aiRisk),
 
 
       originality: result.originality ?? 0,
@@ -136,21 +139,7 @@ export class ResultNormalizer {
 
 
       finance:
-        result.finance ?? {
-
-          initialInvestment: 0,
-
-          monthlyCosts: 0,
-
-          breakEvenMonths: 0,
-
-          roi: 0,
-
-          estimatedProfit: 0,
-
-          cashFlow: ""
-
-        },
+  financeNormalizer.normalize(result.finance),
 
 
 

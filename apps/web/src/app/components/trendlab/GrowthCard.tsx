@@ -1,60 +1,99 @@
-type Growth = {
-  monthlyClients: number;
-  websiteVisitors: number;
-  socialFollowers: number;
-  monthlyAdsBudget: number;
-  monthlyGrowthRate: number;
+import type { GrowthResult } from "@/core/monetbrain/models/GrowthResult";
+
+type Props = {
+  growth: GrowthResult;
 };
 
-interface GrowthCardProps {
-  growth: Growth;
+function numberFormat(value: number) {
+  return new Intl.NumberFormat("es-CO").format(value);
 }
 
-export default function GrowthCard({ growth }: GrowthCardProps) {
+function money(value: number) {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+export default function GrowthCard({
+  growth,
+}: Props) {
+
   return (
-    <div className="bg-slate-900 rounded-2xl p-8">
-      <h2 className="text-2xl font-bold mb-6">
-        📈 Plan de Crecimiento
+
+    <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+
+      <h2 className="text-2xl font-bold mb-8">
+        📈 Crecimiento proyectado
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Clientes por mes</p>
-          <p className="text-3xl font-bold">
-            {growth.monthlyClients}
-          </p>
-        </div>
+      <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-5">
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Visitas Web</p>
-          <p className="text-3xl font-bold">
-            {growth.websiteVisitors}
-          </p>
-        </div>
+        <Metric
+          title="Clientes mensuales"
+          value={numberFormat(growth.monthlyClients)}
+          color="text-green-400"
+        />
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Seguidores</p>
-          <p className="text-3xl font-bold">
-            {growth.socialFollowers}
-          </p>
-        </div>
+        <Metric
+          title="Visitantes web"
+          value={numberFormat(growth.websiteVisitors)}
+          color="text-cyan-400"
+        />
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Publicidad mensual</p>
-          <p className="text-3xl font-bold">
-            ${growth.monthlyAdsBudget.toLocaleString("es-CO")}
-          </p>
-        </div>
+        <Metric
+          title="Seguidores sociales"
+          value={numberFormat(growth.socialFollowers)}
+          color="text-purple-400"
+        />
 
-        <div className="bg-slate-800 rounded-xl p-5">
-          <p className="text-slate-400">Crecimiento mensual</p>
-          <p className="text-3xl font-bold text-green-400">
-            {growth.monthlyGrowthRate}%
-          </p>
-        </div>
+        <Metric
+          title="Publicidad mensual"
+          value={money(growth.monthlyAdsBudget)}
+          color="text-orange-400"
+        />
+
+        <Metric
+          title="Crecimiento mensual"
+          value={`${growth.monthlyGrowthRate}%`}
+          color="text-emerald-400"
+        />
 
       </div>
+
     </div>
+
   );
+
+}
+
+
+function Metric({
+  title,
+  value,
+  color,
+}: {
+  title: string;
+  value: string;
+  color: string;
+}) {
+
+  return (
+
+    <div className="bg-slate-800 rounded-xl p-5">
+
+      <div className="text-sm text-slate-400">
+        {title}
+      </div>
+
+      <div className={`text-xl font-bold mt-3 ${color}`}>
+        {value}
+      </div>
+
+    </div>
+
+  );
+
 }
